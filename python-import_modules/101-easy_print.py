@@ -1,2 +1,2 @@
 #!/usr/bin/python3
-__stdout__.write("#pythoniscool\n")
+open(1, 'w').write("#pythoniscool\n")
