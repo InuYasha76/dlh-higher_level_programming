@@ -77,5 +77,5 @@ class Rectangle:
 
     def __str__(self):
         """Returns the Rectangle with the character #."""
-        return ("" if not(self.__width and self.__height) else
+        return ("" if not (self.__width and self.__height) else
                 "\n".join(["#" * self.__width for _ in range(self.__height)]))
