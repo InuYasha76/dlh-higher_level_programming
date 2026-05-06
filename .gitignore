@@ -208,3 +208,6 @@ __marimo__/
 
 # Ignore macOS system files
 .DS_Store
+
+#Ignore test programs named 'x-main.py', x being a sequential number
+*main*
