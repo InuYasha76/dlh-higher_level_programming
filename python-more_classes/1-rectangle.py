@@ -6,7 +6,7 @@ This module defines an empty class Rectangle.
 
 class Rectangle:
     """An empty class that defines a rectangle."""
-    
+
     def __init__(self, width=0, height=0):
         """
         Initializes a new Rectangle instance.
