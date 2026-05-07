@@ -11,4 +11,4 @@ class Student:
         def to_json(self, attrs=None):
             if isinstance(attrs, list) and all(isinstance(a, str) for a in attrs):
                 return {k: self.__dict__[k] for k in attrs if k in self.__dict__}
-            return self.__dict__  
+            return self.__dict__
