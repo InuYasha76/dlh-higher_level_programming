@@ -42,8 +42,20 @@ def deserialize_from_xml(filename):
         root = tree.getroot()
         reconstruct_dict = {}
         for child in root:
-            value = int(child.text) if child.text.isdigit() else child.text
-            reconstruct_dict[child.tag] = value
+            text_value = child.text if child.text is not None else ""
+            try:
+                value = int(text_value)
+            except ValueError:
+                try:
+                    value = float(text_value)
+                except ValueError:
+                    if text_value.lower() == "true":
+                        value = True
+                    elif text_value.lower() == "false":
+                        value = False
+                    else:
+                        value = text_value
+        reconstruct_dict[child.tag] = value
         return reconstruct_dict
-    except Exception:
+    except FileNotFoundError:
         return None
