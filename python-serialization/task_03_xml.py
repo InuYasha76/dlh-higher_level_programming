@@ -55,7 +55,7 @@ def deserialize_from_xml(filename):
                         value = False
                     else:
                         value = text_value
-        reconstruct_dict[child.tag] = value
+            reconstruct_dict[child.tag] = value
         return reconstruct_dict
     except FileNotFoundError:
         return None
