@@ -11,8 +11,6 @@ def serialize_to_xml(dictionary, filename):
     Args:
         dictionary (dict): The dictionary to serialize to XML.
         filename (string): The name of the *.xml file to serialize to.
-    Returns:
-        The xml representation of the serialized dictionary.
     """
     root_element = "data"
     # Creates a class ET.Element standalone root element named "data"
@@ -23,12 +21,12 @@ def serialize_to_xml(dictionary, filename):
     # - It creates a new element then
     # - Attaches it to a node that becomes its parent
     # Each newly created node is empty, text(txt) apends txt to the node
-    for key, value in dictionary:
+    for key, value in dictionary.items():
         xml_child_node = ET.SubElement(xml_root, key)
         xml_child_node.text = str(value)
     # Uses the ET.ElementTree class to handle high-level operations (write)
     xml_dom_tree = ET.ElementTree(xml_root)
-    xml_dom_tree.write("data")
+    xml_dom_tree.write(filename, encoding="utf-8", xml_declaration=True)
 
 
 def deserialize_from_xml(filename):
@@ -47,5 +45,5 @@ def deserialize_from_xml(filename):
             value = int(child.text) if child.text.isdigit() else child.text
             reconstruct_dict[child.tag] = value
         return reconstruct_dict
-    except Exceptions:
+    except Exception:
         return None
