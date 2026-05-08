@@ -55,6 +55,7 @@ class CustomObject:
         """
         try:
             with open(filename, "rb") as f:
-                pickle.load(f)
+                custom_object_instance = pickle.load(f)
+                return custom_object_instance
         except Exception:
             return None
