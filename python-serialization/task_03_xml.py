@@ -7,10 +7,14 @@ import xml.etree.ElementTree as ET
 
 def serialize_to_xml(dictionary, filename):
     """
-    Serializes the dictionary into XML and saves it to the given filename.
+    Serializes a Python dictionary to XML and saves it to the given filename.
+    
     Args:
         dictionary (dict): The dictionary to serialize to XML.
-        filename (string): The name of the *.xml file to serialize to.
+        filename (str): The name of the file to serialize to.
+    
+    Returns:
+        None
     """
     root_element = "data"
     # Creates a class ET.Element standalone root element named "data"
@@ -24,6 +28,10 @@ def serialize_to_xml(dictionary, filename):
     for key, value in dictionary.items():
         xml_child_node = ET.SubElement(xml_root, key)
         xml_child_node.text = str(value)
+        # sets the type of the node for deterministic type deserialization
+        xml_child_node.set("type", type(value).__name__)
+    # Apply human readable formatting
+    ET.indent(xml_root, space="    ", level=0)
     # Uses the ET.ElementTree class to handle high-level operations (write)
     xml_dom_tree = ET.ElementTree(xml_root)
     xml_dom_tree.write(filename, encoding="utf-8", xml_declaration=True)
@@ -32,10 +40,11 @@ def serialize_to_xml(dictionary, filename):
 def deserialize_from_xml(filename):
     """
     Read the XML data from that file, returns a deserialized Python dictionary.
+    Implements type conversion.
     Args:
-        filename (string): the xml file to convert to Python object
+        filename (str): the name of the xml file to convert to Python object
     Returns:
-        A Python dictionary, None if errors
+        dict: A dictionary, None if errors
     """
     try:
         tree = ET.parse(filename)
@@ -43,19 +52,16 @@ def deserialize_from_xml(filename):
         reconstruct_dict = {}
         for child in root:
             text_value = child.text if child.text is not None else ""
-            try:
+            value_type = child.get("type", "str")
+            if value_type == "int":
                 value = int(text_value)
-            except ValueError:
-                try:
-                    value = float(text_value)
-                except ValueError:
-                    if text_value.lower() == "true":
-                        value = True
-                    elif text_value.lower() == "false":
-                        value = False
-                    else:
-                        value = text_value
+            elif value_type == "float":
+                value = float(text_value)
+            elif value_type == "bool":
+                value = True if text_value.lower() == "true" else False
+            else:
+                value = text_value
             reconstruct_dict[child.tag] = value
         return reconstruct_dict
-    except FileNotFoundError:
+    except Exception:
         return None
