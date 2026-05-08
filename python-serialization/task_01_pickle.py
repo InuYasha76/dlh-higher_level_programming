@@ -22,7 +22,6 @@ class CustomObject:
         self.age = age
         self.is_student = is_student
 
-
     def display(self):
         """Prints the CustomObject to stdout in a customized way."""
         print(f"Name: {self.name}")
@@ -33,7 +32,7 @@ class CustomObject:
         """Serializes the current instance of the object using pickle.
         Save the serialization to the provided filename.
         Args:
-            filename (string): The name of the file to write the 
+            filename (string): The name of the file to write the
             serialized object to.
         Raises:
             Exception in case pickling failed for any good reason.
