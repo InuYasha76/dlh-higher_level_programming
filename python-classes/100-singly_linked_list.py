@@ -18,10 +18,12 @@ class Node:
         self.data = data
         self.next_node = next_node
 
+    @property
     def data(self):
         """Getter: returns the stored value"""
         return self.__data
 
+    @data.setter
     def data(self, value):
         """
         Setter: checks that the value is an integer before assignment
@@ -30,10 +32,12 @@ class Node:
             raise TypeError("data must be an integer")
         self.__data = value
 
+    @property
     def next_node(self):
         """Getter: returns a pointer to the next linked node"""
         return self.__next_node
 
+    @next_node.setter
     def next_node(self, value):
         """Setter: links to the next node thus has to be a Node"""
         if not (value is None or isinstance(value, Node)):
@@ -67,12 +71,12 @@ class SinglyLinkedList:
         """Inserts new nodes according to their value, in ascending order."""
         new_node = Node(value)
         if self.__head is None or value < self.__head.data:
-            new_node.__next_node = self.__head
+            new_node.next_node = self.__head
             self.__head = new_node
         else:
             current_node = self.__head
-            while (value > current_node.data and
-                   current_node.next_node is not None):
+            while (current_node.next_node is not None and
+                   current_node.next_node.data < value):
                 current_node = current_node.next_node
             new_node.next_node = current_node.next_node
             current_node.next_node = new_node
