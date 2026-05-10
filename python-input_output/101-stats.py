@@ -22,10 +22,10 @@ def run_stats():
                 try:
                     filesize = tokens[-1]
                     status_code = tokens[-2]
-                    if status_code in occurrences.keys():
+                    total_size += int(filesize)
+                    if status_code in occurrences:
                         occurrences[status_code] += 1
-                        total_size += int(filesize)
-                        line_count += 1
+                    line_count += 1
                 except (ValueError, IndexError):
                     continue
                 if line_count % 10 == 0:
